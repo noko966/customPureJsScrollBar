@@ -1,0 +1,16 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+    color: red;
+  }
+
+.digi_scroll_bar{
+  background-color: rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.digi_scroll_dragger{
+  background-color: #999;
+}
