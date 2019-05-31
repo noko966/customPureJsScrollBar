@@ -136,7 +136,7 @@ export class ScrollBar {
         return Math.ceil(offset / (scrollWidth / trackWidth));
     }
     moveScrollHandlerX(scrollLeft){
-        this.xDragger.style.transform = `translateX(${this.getScrollTopForOffset(scrollLeft)}px)`
+        this.xDragger.style.transform = `translateX(${this.getScrollLeftForOffset(scrollLeft)}px)`
     }
     moveScrollHandlerY(scrollTop){
         this.yDragger.style.transform = `translateY(${this.getScrollTopForOffset(scrollTop)}px)`
@@ -156,7 +156,6 @@ export class ScrollBar {
     moveScrollBar(event){
         let self = this;
         let scrollTop = self.wrapper.scrollTop;
-        let scrollLeft = self.wrapper.scrollLeft;
         self.moveScrollHandlerY(scrollTop);
 
         if(event.type === 'wheel'){
@@ -172,12 +171,25 @@ export class ScrollBar {
 
         let clientHeight = this.target.offsetHeight;
         let scrollHeight = this.wrapper.scrollHeight;
+        let clientWidth = this.target.offsetWidth;
+        let scrollWidth = this.wrapper.scrollWidth;
         let yRatio = clientHeight / scrollHeight;
+        let xRatio = clientHeight / scrollHeight;
+
 
         let lastPageY, lastPageX;
         let el = this.yDragger;
         self.yDragger.addEventListener('mousedown', function (e) {
             lastPageY = e.pageY;
+            el.classList.add('ss-grabbed');
+            self.target.style.userSelect = 'none';
+            document.body.classList.add('ss-grabbed');
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stop);
+            return false;
+        });
+
+        self.xDragger.addEventListener('mousedown', function (e) {
             lastPageX = e.pageX;
             el.classList.add('ss-grabbed');
             self.target.style.userSelect = 'none';
@@ -190,8 +202,15 @@ export class ScrollBar {
         function drag(e) {
             let deltaY = e.pageY - lastPageY;
             lastPageY = e.pageY;
+            let deltaX = e.pageX - lastPageX;
+            lastPageX = e.pageX;
             raf(function () {
-                self.wrapper.scrollTop += deltaY / yRatio;
+                if(self.isHorizontal){
+                    self.wrapper.scrollLeft += deltaX / xRatio;                   
+                }
+                else{
+                    self.wrapper.scrollTop += deltaY / yRatio;
+                }
             });
         }
     
