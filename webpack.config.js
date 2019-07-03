@@ -3,13 +3,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: './src/index.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, './dist'),
         libraryTarget: 'var',
-        library: 'SportDIGI'
+        library: 'SCROLLBAR'
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -21,7 +21,7 @@ module.exports = {
             chunkFilename: '[id].css',
         }),
     ],
-    devtool: 'inline-source-map',
+    // devtool: 'inline-source-map',
     devServer: {
         contentBase: './dist'
     },

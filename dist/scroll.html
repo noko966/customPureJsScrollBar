@@ -8,80 +8,283 @@
     <title>Document</title>
 
     <style>
-        html, body{
+        html,
+        body {
             height: 100%;
             overflow: hidden;
+            /* direction: rtl; */
         }
-        #scroll {
+
+        #scrollL {
+            /* padding-left:8px;
+            padding-right:8px; */
             width: 200px;
-            height: 50%;
+            /* height: 300px; */
+            background-color: #333;
+            color: #fff;
+            /* height: auto !important;
+            max-height: calc((100%) - 50px) !important; */
+            height: 90%;
         }
-        #scrollX .inner{
+
+        #scrollR {
+            padding: 0 8px;
+            width: 300px;
+            /* height: 300px; */
+            background-color: #333;
+            color: #fff;
+        }
+
+        #scroll .inner {
+            height: 40px;
+        }
+        .flexCol{
+            display: flex;
+            flex-direction: column;
+        }
+
+        #scrollX {
+            width: 50 !important;
+            display: flex;
+
+        }
+
+        .hor {
+            display: flex;
+            /* justify-content: flex-end; */
+        }
+
+        #scrollX .inner {
             width: 100px;
+            height: 20px;
             background-color: red;
             margin-right: 5px;
             flex-shrink: 0;
         }
 
+        .wrapper {
+            height: calc(100% - 100px);
+            display: flex;
+            align-items: baseline;
+        }
 
+        .mid {
+            flex-grow: 1;
+            background-color: #333;
+        }
+
+        .inner {
+            height: 100px;
+        }
     </style>
 <link href="main.css" rel="stylesheet"></head>
 
 <body>
 
-    <div id="scroll">
-        <div class="inner">some text 1</div>
-        <div class="inner">some text 2</div>
-        <div class="inner">some text 3</div>
-        <div class="inner">some text 4</div>
-        <div class="inner">some text 5</div>
-        <div class="inner">some text 6</div>
-        <div class="inner">some text 7</div>
-        <div class="inner">some text 8</div>
-        <div class="inner">some text 9</div>
-        <div class="inner">some text 10</div>
-        <div class="inner">some text 11</div>
-        <div class="inner">some text 12</div>
-        <div class="inner">some text 13</div>
-        <div class="inner">some text 14</div>
-        <div class="inner">some text 15</div>
-        <div class="inner">some text 16</div>
-        <div class="inner">some text 17</div>
-        <div class="inner">some text 18</div>
-        <div class="inner">some text 19</div>
-        <div class="inner">some text 20</div>
 
+    <div class="wrapper">
+        <!-- <div class="ss"> -->
+        <div id="scrollL">
+
+
+            <div class="inner">1some text</div>
+            <div class="inner">2some text</div>
+            <div class="inner">3some text</div>
+            <div class="inner">4some text</div>
+            <div class="inner">5some text</div>
+            <div class="inner">6some text</div>
+
+
+
+            <div class="inner">3some text</div>
+            <div class="inner">4some text</div>
+            <div class="inner">5some text</div>
+            <div class="inner">6some text</div>
+            <!-- <div class="inner">7some text</div>
+            <div class="inner">8some text</div>
+            <div class="inner">9some text</div>
+            <div class="inner">10some text</div>
+            <div class="inner">11some text</div>
+            <div class="inner">12some text</div>
+            <div class="inner">13some text</div>
+            <div class="inner">14some text</div>
+            <div class="inner">15some text</div>
+            <div class="inner">16some text</div>
+            <div class="inner">17some text</div>
+            <div class="inner">18some text</div>
+            <div class="inner">19some text</div>
+            <div class="inner">20some text</div>
+            <div class="inner">21some text</div>
+            <div class="inner">22some text</div>
+            <div class="inner">23some text</div>
+            <div class="inner">24some text</div>
+            <div class="inner">25some text</div>
+            <div class="inner">26some text</div>
+            <div class="inner">27some text</div>
+            <div class="inner">28some text</div>
+            <div class="inner">29some text</div>
+            <div class="inner">30some text</div>
+            <div class="inner">31some text</div>
+            <div class="inner">32some text</div>
+            <div class="inner">33some text</div>
+            <div class="inner">34some text</div>
+            <div class="inner">35some text</div>
+            <div class="inner">36some text</div>
+            <div class="inner">37some text</div>
+            <div class="inner">38some text</div>
+            <div class="inner">39some text</div>
+            <div class="inner">40some text</div>
+            <div class="inner">41some text</div>
+            <div class="inner">42some text</div>
+            <div class="inner">43some text</div>
+            <div class="inner">44some text</div>
+            <div class="inner">45some text</div>
+            <div class="inner">46some text</div>
+            <div class="inner">47some text</div>
+            <div class="inner">48some text</div>
+            <div class="inner">49some text</div>
+            <div class="inner">50some text</div>
+            <div class="inner">51some text</div>
+            <div class="inner">52some text</div>
+            <div class="inner">53some text</div>
+            <div class="inner">54some text</div>
+            <div class="inner">55some text</div>
+            <div class="inner">56some text</div>
+            <div class="inner">57some text</div>
+            <div class="inner">58some text</div>
+            <div class="inner">59some text</div>
+            <div class="inner">60some text</div>
+            <div class="inner">61some text</div>
+            <div class="inner">62some text</div>
+            <div class="inner">63some text</div>
+            <div class="inner">64some text</div>
+            <div class="inner">65some text</div>
+            <div class="inner">66some text</div>
+            <div class="inner">67some text</div>
+            <div class="inner">68some text</div>
+            <div class="inner">69some text</div>
+            <div class="inner">70some text</div>
+            <div class="inner">71some text</div>
+            <div class="inner">72some text</div>
+            <div class="inner">73some text</div>
+            <div class="inner">74some text</div>
+            <div class="inner">75some text</div>
+            <div class="inner">76some text</div>
+            <div class="inner">77some text</div>
+            <div class="inner">78some text</div>
+            <div class="inner">79some text</div>
+            <div class="inner">80some text</div>
+            <div class="inner">81some text</div>
+            <div class="inner">82some text</div>
+            <div class="inner">83some text</div>
+            <div class="inner">84some text</div>
+            <div class="inner">85some text</div>
+            <div class="inner">86some text</div>
+            <div class="inner">87some text</div>
+            <div class="inner">88some text</div>
+            <div class="inner">89some text</div>
+            <div class="inner">90some text</div>
+            <div class="inner">91some text</div>
+            <div class="inner">92some text</div>
+            <div class="inner">93some text</div>
+            <div class="inner">94some text</div>
+            <div class="inner">95some text</div>
+            <div class="inner">96some text</div>
+            <div class="inner">97some text</div>
+            <div class="inner">98some text</div>
+            <div class="inner">99some text</div>
+            <div class="inner">100some text</div> -->
+
+
+
+        </div>
+        <!-- </div> -->
+
+        <div class="mid">
+
+        </div>
+
+        <div id="scrollX">
+            <div class="flexCol">
+            <div class="hor">
+                <div class="inner">1</div>
+                <div class="inner">2</div>
+                <div class="inner">3</div>
+
+                <div class="inner">7</div>
+            </div>
+            <div class="hor">
+                <div class="inner">1</div>
+                <div class="inner">2</div>
+                <div class="inner">3</div>
+                <div class="inner">4</div>
+                <div class="inner">5</div>
+                <div class="inner">6</div>
+                <div class="inner">7</div>
+            </div>
+            <div class="hor">
+                <div class="inner">1</div>
+                <div class="inner">2</div>
+                <div class="inner">3</div>
+                <div class="inner">4</div>
+                <div class="inner">5</div>
+                <div class="inner">6</div>
+                <div class="inner">7</div>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- 
+        <div id="scrollR">
+            <div class="inner">some text 1</div>
+            <div class="inner">some text 2</div>
+            <div class="inner">some text 3</div>
+            <div class="inner">some text 4</div>
+            <div class="inner">some text 5</div>
+            <div class="inner">some text 6</div>
+            <div class="inner">some text 7</div>
+            <div class="inner">some text 8</div>
+            <div class="inner">some text 9</div>
+            <div class="inner">some text 10</div>
+            <div class="inner">some text 11</div>
+            <div class="inner">some text 12</div>
+            <div class="inner">some text 13</div>
+            <div class="inner">some text 14</div>
+            <div class="inner">some text 15</div>
+            <div class="inner">some text 16</div>
+            <div class="inner">some text 17</div>
+            <div class="inner">some text 18</div>
+            <div class="inner">some text 19</div>
+            <div class="inner">some text 20</div>
+        </div> -->
 
 
     </div>
 
 
 
-    <div id="scrollX">
-        <div class="inner">1</div>
-        <div class="inner">2</div>
-        <div class="inner">3</div>
-        <div class="inner">4</div>
-        <div class="inner">5</div>
-        <div class="inner">6</div>
-        <div class="inner">7</div>
-   
-    
-    </div>
+
 
 
 <script type="text/javascript" src="bundle.js"></script></body>
 
 <script>
-    var scroll = document.getElementById('scroll');
+    var scroll = document.getElementById('scrollL');
+    // var scrolr = document.getElementById('scrollR');
+
     var scrollX = document.getElementById('scrollX');
 
 
-    let ScrollBar = SportDIGI.ScrollBar;
+    let ScrollBar = SCROLLBAR.ScrollBar;
 
-    var scrollBar = new ScrollBar(scroll);
-    var scrollBar2 = new ScrollBar(scrollX, true);
+    var sl = new ScrollBar(scroll, false, undefined, true);
 
+    // var sx = new ScrollBar(scrollX, true, undefined, true);
+
+    // var sr = new ScrollBar(scrolr);
+
+    // var scrollBar2 = new ScrollBar(scrollX, true);
 </script>
 
 </html>
