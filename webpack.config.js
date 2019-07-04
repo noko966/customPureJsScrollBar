@@ -28,12 +28,14 @@ module.exports = {
     module: {
         rules: [{
             test: /\.css$/,
-            use: [
-                {
+            use: [{
                     loader: MiniCssExtractPlugin.loader,
                 },
                 'css-loader',
             ]
+        }, {            
+            test: /\.js$/,
+            loader: 'babel-loader',
         }]
     }
 };

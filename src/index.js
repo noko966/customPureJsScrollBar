@@ -93,9 +93,9 @@ export class ScrollBar {
         let val = value;
         let delta = val < currentScrollTop ? (currentScrollTop - val) : (val - currentScrollTop);
         let i = 0;
-        let oldVal = 0;
-        let newVal = 0;
-        function repeatOften() {
+        let oldVal = this.container.scrollTop;
+        let newVal = value;
+        function repeatOften() {            
             if(Math.abs(val - currentScrollTop) > 17){
                 if(val < currentScrollTop){
                     currentScrollTop -= 17;
@@ -106,13 +106,13 @@ export class ScrollBar {
                 self.container.scrollTop = currentScrollTop;
             }
             else{
+                
                 cancelAnimationFrame(repeatOften);
             }
           requestAnimationFrame(repeatOften);
 
           }
           requestAnimationFrame(repeatOften);
-        
     }
 
     update() {
