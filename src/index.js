@@ -12,12 +12,11 @@ export class ScrollBar {
      * @param {HTMLElement} targetEl - element which need to have scrollbar
      * @param {boolean} isHorizontal - decide if scrollbar horisontal
      * */
-    constructor(targetEl, isHorizontal, thickness = "4px", isMaxHeightPercentage) {
+    constructor(targetEl, isHorizontal, thickness = "4px") {
         this.thickness = thickness;
         this.target = targetEl;
         this.executeOnce = true;
         this.isHorizontal = isHorizontal;
-        this.isMaxHeightPercentage = isMaxHeightPercentage;
         
         this.currentScrollY = null;
         this.n;
@@ -28,10 +27,8 @@ export class ScrollBar {
         this.initProcesses = this.initProcesses.bind(this);
         this.update = this.update.bind(this);
         this.attachEvents = this.attachEvents.bind(this);
-        this.scrollTo = this.scrollTo.bind(this);
-
+        this.scrollTo = this.scrollTo.bind(this);      
         
-    
         this.init();
     }
 
@@ -49,9 +46,12 @@ export class ScrollBar {
 
         this.initHTML();
         this.initStartCss();
-        this.attachEvents();
-        this.isScrollBarVisible();
-        this.checkForUpdates();
+        if(!this.isMacOS()){
+            this.attachEvents();
+            this.isScrollBarVisible();
+            this.checkForUpdates();
+        }
+        
     }
 
     addContent(el){
@@ -80,6 +80,11 @@ export class ScrollBar {
         this.yBar.parentNode.removeChild(this.yBar);
     }
 
+    isMacOS(){
+        // return true;
+        return !!~window.navigator.platform.toLowerCase().indexOf('mac');
+    }
+
     destroy(){
         delete this.target.dataset.customScroll;
         this.removeEvents();
@@ -87,32 +92,34 @@ export class ScrollBar {
         this.destroyCss();
     }
 
-    scrollTo(value){
+    scrollTo(val){
         let self = this;
-        let currentScrollTop = this.container.scrollTop;
-        let val = value;
-        let delta = val < currentScrollTop ? (currentScrollTop - val) : (val - currentScrollTop);
-        let i = 0;
-        let oldVal = this.container.scrollTop;
-        let newVal = value;
-        function repeatOften() {            
-            if(Math.abs(val - currentScrollTop) > 17){
-                if(val < currentScrollTop){
-                    currentScrollTop -= 17;
+
+        let ov = self.container.scrollTop;
+        let nv = val;
+
+        let dist = Math.abs(ov - nv);
+        
+        let time = 10;
+        let step = dist / time;
+        var newStep = ov;
+
+        function repeatOften() {
+            if(time > 0){
+                requestAnimationFrame(repeatOften);
+                time--;
+                if(ov < nv){
+                    newStep += step
                 }
                 else{
-                    currentScrollTop += 17;
+                    newStep -= step
                 }
-                self.container.scrollTop = currentScrollTop;
-            }
-            else{
                 
-                cancelAnimationFrame(repeatOften);
-            }
-          requestAnimationFrame(repeatOften);
+                self.container.scrollTop = newStep.toFixed(2);
+            }   
+        }
 
-          }
-          requestAnimationFrame(repeatOften);
+        requestAnimationFrame(repeatOften);
     }
 
     update() {
@@ -127,22 +134,14 @@ export class ScrollBar {
             this.currentScrollY = this.container.scrollTop;
             this.lastScrollY = this.container.scrollTop || this.lastScrollY;
             this.moveScrollHandlerY(this.currentScrollY);
-
-            if(this.isMaxHeightPercentage){
-                this.container.style.maxHeight = '';
-                this.container.style.maxHeight = this.target.clientHeight + 'px';
-
-                if (!this.currentScrollY && this.lastScrollY) {
-                    this.moveScrollHandlerY(this.lastScrollY);
-                }
-                
-            }           
+   
             this.isScrollBarVisible();
             this.yDragger.style.height = this.calcScrollBarHeight() + 'px';
             
         }
     }
     hideScrollBar(){
+  
         if(this.isHorizontal){
             this.xBar.style.display = 'none';
             this.xDragger.style.width = '0';
@@ -155,6 +154,7 @@ export class ScrollBar {
         }
     }
     showScrollBar(){
+ 
         if(this.isHorizontal){
             this.xBar.style.display = 'block';
             this.xDragger.style.width = this.calcScrollBarWidth() + 'px';
@@ -195,14 +195,6 @@ export class ScrollBar {
 
     initHTML() {
         this.target.dataset.customScroll = true;
-        this.xBar = document.createElement("div");
-        this.yBar = document.createElement("div");
-        this.xDragger = document.createElement("div");
-        this.yDragger = document.createElement("div");
-        this.xBar.className = "digi_scroll_bar digi_scroll_bar_x";
-        this.yBar.className = "digi_scroll_bar digi_scroll_bar_y";
-        this.xDragger.className = "digi_scroll_dragger digi_scroll_dragger_x";
-        this.yDragger.className = "digi_scroll_dragger digi_scroll_dragger_y";
 
         this.container = document.createElement("div");
         this.container.className = "scrollableWrapper";
@@ -213,59 +205,75 @@ export class ScrollBar {
 
         this.target.appendChild(this.container);
 
-        this.xBar.appendChild(this.xDragger);
-        this.yBar.appendChild(this.yDragger);
-        this.target.appendChild(this.xBar)
-        this.target.appendChild(this.yBar)
+        if(!this.isMacOS()){
+            this.xBar = document.createElement("div");
+            this.yBar = document.createElement("div");
+            this.xDragger = document.createElement("div");
+            this.yDragger = document.createElement("div");
+            this.xBar.className = "digi_scroll_bar digi_scroll_bar_x";
+            this.yBar.className = "digi_scroll_bar digi_scroll_bar_y";
+            this.xDragger.className = "digi_scroll_dragger digi_scroll_dragger_x";
+            this.yDragger.className = "digi_scroll_dragger digi_scroll_dragger_y";
+            this.xBar.appendChild(this.xDragger);
+            this.yBar.appendChild(this.yDragger);
+            this.target.appendChild(this.xBar)
+            this.target.appendChild(this.yBar)
+        }
 
     }
 
     initStartCss() {
-        this.container.style.boxSizing = 'content-box';
-        this.target.style.position = "relative";
-        this.target.style.overflow = "hidden";
+        
+        if(!this.isMacOS()){
+            this.container.style.boxSizing = 'content-box';
+            this.target.style.position = "relative";
+            this.target.style.overflow = "hidden";
+        }
         
         if(this.isHorizontal){
-            this.xDragger.style.height = this.thickness;
-
+            
             this.target.style.width = "100%";
-            this.xBar.style.position = "absolute";
-            this.xBar.style.left = 0;
-            this.xBar.style.right = 0;
-            this.xBar.style.bottom = 0;
-            this.xBar.style.height = this.thickness;
-
-            this.container.style.marginBottom = "-17px";
+            if(!this.isMacOS()){
+                this.xDragger.style.height = this.thickness;
+                this.xBar.style.position = "absolute";
+                this.xBar.style.left = 0;
+                this.xBar.style.right = 0;
+                this.xBar.style.bottom = 0;
+                this.xBar.style.height = this.thickness;
+                this.container.style.overflowX = "scroll";
+                this.container.style.marginBottom = "-17px";
+            }
+            if(this.isMacOS()){
+                this.container.style.overflowX = "auto";
+            }
             this.container.style.width = "100%";
             this.container.style.overflowY = "hidden";
-            this.container.style.overflowX = "scroll";
-            // this.container.style.display = "flex";
+            
 
         }
         else{
             this.target.style.height = "100%";
-            this.yBar.style.position = "absolute";
-            this.yBar.style.top = this.thickness;
-            
-            if(this.isRTL()){
-                this.yBar.style.left = "0";
-                this.container.style.marginLeft = "-17px";
-            }
-            else{
-                this.yBar.style.right = "0";
-                this.container.style.marginRight = "-17px";
-            }
-            
-            this.yBar.style.bottom = this.thickness;
-            this.yBar.style.width = this.thickness;
-            
             this.container.style.height = "100%";
-        
-            if(this.isMaxHeightPercentage){
-                this.container.style.maxHeight = this.target.clientHeight + 'px';
+            if(this.isMacOS()){
+                this.container.style.overflowY = "auto";
             }
-            this.container.style.overflowY = "scroll";
             this.container.style.overflowX = "hidden";
+            if(!this.isMacOS()){
+                this.container.style.overflowY = "scroll";
+                this.yBar.style.position = "absolute";
+                this.yBar.style.top = this.thickness;
+                if(this.isRTL()){
+                    this.yBar.style.left = "0";
+                    this.container.style.marginLeft = "-17px";
+                }
+                else{
+                    this.yBar.style.right = "0";
+                    this.container.style.marginRight = "-17px";
+                }
+                this.yBar.style.bottom = this.thickness;
+                this.yBar.style.width = this.thickness;
+            }
+
         }
 
     }
@@ -402,38 +410,6 @@ export class ScrollBar {
         
         setTimeout(repeatingFunc, 1000 / 60);
     }
-    /**
-     * gets css value from stylesheet
-     * */
-    detectDOMChanges(targetNode, callback, config = {}) {
-        config = Object.assign({
-            attributes: false,
-            childList: true,
-            subtree: true
-        }, config);
-
-        let observer = new MutationObserver(_callback);
-
-        observer.observe(targetNode, config);
-
-        function _callback(mutationsList, observer) {
-            for (let mutation of mutationsList) {
-                if (mutation.type === 'childList') {
-                    callback(...arguments);
-                }
-                if (mutation.type == 'attributes') {
-					console.log('The ' + mutation.attributeName + ' attribute was modified.');
-				}
-            }
-        }
-
-        let disconnect = observer.disconnect.bind(observer);
-
-        return disconnect;
-    }
-
-
-
 
 }
 
