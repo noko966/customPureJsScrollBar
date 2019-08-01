@@ -6,11 +6,19 @@ body{
   box-sizing: border-box;
 }
 
-.digi_scroll{
-  /* -ms-overflow-style: none; */
+.digi_scroll_bar_y{
+  width: 6px;
+}
+.digi_scroll_dragger_y{
+  width: 100%;
 }
 
-
+.digi_scroll_bar_x{
+  height: 6px;
+}
+.digi_scroll_dragger_x{
+  height: 100%;
+}
 
 .digi_scroll_bar{
   background-color: rgba(0,0,0,0.1);
@@ -22,15 +30,10 @@ body{
   background-color: #999;
   opacity: 0.9;
   z-index: 10;
+  border-radius: 2px;
 }
 .digi_scroll:hover .digi_scroll_dragger{
-  /* opacity: 0.5; */
-  
+  opacity: 0.5;
 }
 
-/* ::-webkit-scrollbar {
-  width: 0px;  
-  background: transparent;  
-  display: none;
-} */
 
